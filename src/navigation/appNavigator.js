@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { initializeListeners, } from 'react-navigation-redux-helpers';
+import { initializeListeners } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
 
 import { navigationPropConstructor } from '../redux/store';
@@ -8,11 +8,13 @@ import { navigationPropConstructor } from '../redux/store';
 // SCREENS
 import InitialScreen from '../screens/initialScreen';
 
-
 const AppNavigator = createStackNavigator({
   InitialScreen: {
     screen: InitialScreen,
     path: '/',
+    navigationOptions: {
+      title: 'some screen',
+    },
   },
 }, {
   headerMode: 'float',
