@@ -20,8 +20,8 @@ const StyledText = styled.Text`
   letter-spacing: 0.4;
 `;
 
-const ListItem = ({ item }) => (
-  <TouchableContainer>
+const ListItem = ({ item, onPress }) => (
+  <TouchableContainer onPress={() => onPress(item)}>
     <StyledTitle>{item.name}</StyledTitle>
     <StyledText>{item.vicinity}</StyledText>
   </TouchableContainer>

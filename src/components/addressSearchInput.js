@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import ListItem from '../components/listItem';
 
-import { SET_LOCATION, GOOGLE_API_KEY } from '../redux/reducers/location';
+import { SET_USER_LOCATION, GOOGLE_API_KEY } from '../redux/reducers/location';
 
 const styles = {
   input: {
@@ -19,7 +19,7 @@ const Wrapper = styled.View`
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
   elevation: 2;
-  margin-bottom: 14px;
+  margin-bottom: 22px;
 `;
 
 const EmptyText = styled.Text`
@@ -46,8 +46,6 @@ function debounce(callback, wait, context = this) {
   };
 }
 
-const renderListItem = data => <ListItem item={data.item} />;
-
 class AddressSearchInput extends React.Component {
   constructor(props) {
     super(props);
@@ -62,7 +60,7 @@ class AddressSearchInput extends React.Component {
   componentDidMount() {
     navigator.geolocation.requestAuthorization();
     this.positionWatcher = navigator.geolocation.watchPosition(
-      position => this.props.dispatch({ type: SET_LOCATION, payload: position }),
+      position => this.props.dispatch({ type: SET_USER_LOCATION, payload: position }),
       error => Alert.alert('Atenção!', `O seguinte erro aconteceu: ${error.message}`),
       {
         timeout: 500,
@@ -93,8 +91,22 @@ class AddressSearchInput extends React.Component {
     return this.setState({ isLoading: false, nearbyPlaces: [], status: null });
   }
 
+  async handPress(address) {
+    await this.setState({
+      nearbyPlaces: [],
+      status: null,
+      keyword: address.name,
+    });
+    this.props.onPress(address);
+  }
+
+  renderListItem(data) {
+    return (
+      <ListItem item={data.item} onPress={address => this.handPress(address)} />
+    );
+  }
+
   render() {
-    console.log(this.state);
     return (
       <Wrapper>
         <Animated.View>
@@ -111,7 +123,7 @@ class AddressSearchInput extends React.Component {
               <EmptyText>Nenhum resultado encontrado</EmptyText> :
               <FlatList
                 data={this.state.nearbyPlaces}
-                renderItem={renderListItem}
+                renderItem={data => this.renderListItem(data)}
               />}
         </Animated.View>
       </Wrapper>
