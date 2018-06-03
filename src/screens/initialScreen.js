@@ -80,6 +80,9 @@ class InitialScreen extends React.Component {
   }
 
   async submit() {
+    if (this.state.identificationName.length <= 0 || this.state.region.latitude === -23.508086) {
+      return Alert.alert('Atenção!', 'Preencha os campos antes de continuar');
+    }
     await this.setState({ isLoading: true });
     const payload = {
       userId: 1,
@@ -97,7 +100,7 @@ class InitialScreen extends React.Component {
       },
     };
     const json = JSON.stringify(payload);
-    axios.post('https://uneer.herokuapp.com/localizacao/atual', json, {
+    return axios.post('https://uneer.herokuapp.com/localizacao/atual', json, {
       headers: {
         'Content-Type': 'application/json',
       },
