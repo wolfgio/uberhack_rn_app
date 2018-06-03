@@ -17,7 +17,7 @@ const StyledText = styled.Text`
 class StatusScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { fill: 0, ms: 0, countDown: 60 };
+    this.state = { fill: 0, ms: 0, countDown: 30 };
   }
   componentDidMount() {
    this.interval = setInterval(() => this.tick(), 1000)
@@ -28,16 +28,20 @@ class StatusScreen extends React.Component {
   }
 
   tick() {
-    if (this.state.fill >= 100) {
+    if (this.state.fill === 100) {
       clearInterval(this.interval);
       return this.props.navigation.navigate('SuccessScreen');
     }
-    const fill = ((this.state.ms) * 100 / 60);
-    this.setState({
-      fill,
-      ms: this.state.ms + 1,
-      countDown: this.state.countDown - 1,
-    });
+    if (this.state.countDown - 1 >= 0) {
+      const fill = ((this.state.ms) * 100 / 30);
+      this.setState({
+        fill,
+        ms: this.state.ms + 1,
+        countDown: this.state.countDown - 1,
+      });
+    } else {
+      this.props.navigation.navigate('SuccessScreen');
+    }
   }
 
   interval;
@@ -61,7 +65,7 @@ class StatusScreen extends React.Component {
           {
             () => (
               <StyledText size={80}>
-                0:{this.state.countDown}
+                {this.state.countDown}
               </StyledText>
             )
           }
