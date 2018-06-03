@@ -2,6 +2,7 @@ import React from 'react';
 import { TextInput, ActivityIndicator, FlatList, Alert, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import ListItem from '../components/listItem';
 
@@ -77,10 +78,9 @@ class AddressSearchInput extends React.Component {
     if (keyword.length > 0) {
       const { latitude, longitude } = location.user_location.coords;
       const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&rankby=distance&keyword=${keyword}&key=${GOOGLE_API_KEY}`;
-      return fetch(url)
-        .then(resp => resp.json())
+      return axios.get(url)
         .then((payload) => {
-          const { results, status } = payload;
+          const { results, status } = payload.data;
           this.setState({
             nearbyPlaces: results,
             status,

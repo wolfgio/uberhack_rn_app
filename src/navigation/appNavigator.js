@@ -8,6 +8,7 @@ import { navigationPropConstructor } from '../redux/store';
 // SCREENS
 import InitialScreen from '../screens/initialScreen';
 import StatusScreen from '../screens/statusScreen';
+import SuccessScreen from '../screens/successScreen';
 
 const AppNavigator = createStackNavigator({
   InitialScreen: {
@@ -24,6 +25,10 @@ const AppNavigator = createStackNavigator({
       title: 'Status',
     },
   },
+  SuccessScreen: {
+    screen: SuccessScreen,
+    path: '/success',
+  },
 }, {
   headerMode: 'float',
   initialRouteName: 'InitialScreen',
@@ -31,6 +36,7 @@ const AppNavigator = createStackNavigator({
   navigationOptions: {
     gesturesEnabled: true,
     headerBackTitle: 'Voltar',
+    header: null,
   },
 });
 
