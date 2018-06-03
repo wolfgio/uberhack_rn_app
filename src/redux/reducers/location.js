@@ -3,7 +3,7 @@ export const SET_DESTINY_LOCATION = 'SET_DESTINY_LOCATION';
 export const GOOGLE_API_KEY = 'AIzaSyCaJYP7P3wpNFCF6qWNQqglXCjH2DvSMUY';
 
 const INITIAL_STATE = {
-  user_location: {},
+  user_location: null,
   user_start_location: null,
   user_end_location: null,
 };
