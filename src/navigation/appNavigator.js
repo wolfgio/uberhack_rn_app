@@ -13,7 +13,7 @@ const AppNavigator = createStackNavigator({
     screen: InitialScreen,
     path: '/',
     navigationOptions: {
-      title: 'some screen',
+      title: 'Escolher destino',
     },
   },
 }, {

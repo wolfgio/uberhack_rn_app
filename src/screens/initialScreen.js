@@ -31,7 +31,7 @@ const InputWrapper = styled.View`
   margin-bottom: ${props => props.marginBottom};
 `;
 
-const DateTimeText = styled.Text`
+const StyledText = styled.Text`
   font-size: 18px;
   padding: 14px;
 `;
@@ -96,12 +96,17 @@ class InitialScreen extends React.Component {
               placeholder="Identificação para a retirada."
             />
           </InputWrapper>
-          <InputWrapper marginBottom={0}>
+          <InputWrapper marginBottom={22}>
             <TouchableOpacity onPress={() => this.setState({ showDateTimer: true })}>
-              <DateTimeText>
-                {this.state.dateTimeValue}
-              </DateTimeText>
+              <StyledText>
+                Horário da chegada: {this.state.dateTimeValue}
+              </StyledText>
             </TouchableOpacity>
+          </InputWrapper>
+          <InputWrapper marginBottom={0}>
+            <StyledText>
+              Começar trajeto
+            </StyledText>
           </InputWrapper>
           <DateTimePicker
             is24Hour
