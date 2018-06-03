@@ -1,9 +1,8 @@
 import React from 'react';
-import { Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { Dimensions, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import styled from 'styled-components';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import Container from '../components/screenContainer';
 import AddressSearchInput from '../components/addressSearchInput';
@@ -15,7 +14,7 @@ const ShadowBoxWrapper = styled.View`
   left: 14px;
   top: 14px;
   width: ${Dimensions.get('window').width - 28}px;
-  background-color: #FFFFFF;
+  background-color: rgba(67, 114, 186, 0.7);
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
   elevation: 2;
@@ -31,9 +30,25 @@ const InputWrapper = styled.View`
   margin-bottom: ${props => props.marginBottom};
 `;
 
-const StyledText = styled.Text`
+const ButtonWrapper = styled.TouchableOpacity`
+  position: absolute;
+  left: 14px;
+  bottom: 42px;
+  width: ${Dimensions.get('window').width - 28}px;
+  background-color: rgba(67, 114, 186, 1);
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  elevation: 2;
+  padding: 16px;
+  z-index: 9999;
+`;
+
+const ButtonText = styled.Text`
   font-size: 18px;
-  padding: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  align-self: center;
 `;
 
 const inputStyle = {
@@ -51,9 +66,8 @@ class InitialScreen extends React.Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
-      showDateTimer: false,
       showMarker: false,
-      dateTimeValue: `${new Date().getHours()}:${new Date().getMinutes()}`,
+      identificationName: '',
     };
   }
 
@@ -76,49 +90,23 @@ class InitialScreen extends React.Component {
               });
             }}
           />
-          <AddressSearchInput
-            placeholder="Destino"
-            onPress={(address) => {
-              dispatch({ type: SET_DESTINY_LOCATION, payload: { ref: 'user_end_location', data: address } });
-              this.setState({
-                region: {
-                  ...this.state.region,
-                  latitude: address.geometry.location.lat,
-                  longitude: address.geometry.location.lng,
-                },
-                showMarker: true,
-              });
-            }}
-          />
-          <InputWrapper marginBottom={22}>
+          <InputWrapper marginBottom={0}>
             <TextInput
               style={inputStyle}
+              onChangeText={text => this.setState({ identificationName: text })}
               placeholder="Identificação para a retirada."
+              value={this.state.identificationName}
             />
           </InputWrapper>
-          <InputWrapper marginBottom={22}>
-            <TouchableOpacity onPress={() => this.setState({ showDateTimer: true })}>
-              <StyledText>
-                Horário da chegada: {this.state.dateTimeValue}
-              </StyledText>
-            </TouchableOpacity>
-          </InputWrapper>
-          <InputWrapper marginBottom={0}>
-            <StyledText>
-              Começar trajeto
-            </StyledText>
-          </InputWrapper>
-          <DateTimePicker
-            is24Hour
-            mode="time"
-            isVisible={this.state.showDateTimer}
-            onConfirm={data => this.setState({
-              dateTimeValue: `${new Date(data).getHours()}:${new Date(data).getMinutes()}`,
-              showDateTimer: false,
-            })}
-            onCancel={() => this.setState({ showDateTimer: false })}
-          />
         </ShadowBoxWrapper>
+        <ButtonWrapper
+          onPress={() => this.props.navigation.navigate('StatusScreen')}
+          activeOpacity={0.9}
+        >
+          <ButtonText>
+            Concluir
+          </ButtonText>
+        </ButtonWrapper>
         <MapView
           provider={PROVIDER_GOOGLE}
           showsUserLocation

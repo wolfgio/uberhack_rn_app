@@ -7,6 +7,7 @@ import { navigationPropConstructor } from '../redux/store';
 
 // SCREENS
 import InitialScreen from '../screens/initialScreen';
+import StatusScreen from '../screens/statusScreen';
 
 const AppNavigator = createStackNavigator({
   InitialScreen: {
@@ -16,11 +17,20 @@ const AppNavigator = createStackNavigator({
       title: 'Escolher destino',
     },
   },
+  StatusScreen: {
+    screen: StatusScreen,
+    path: '/status',
+    navigationOptions: {
+      title: 'Status',
+    },
+  },
 }, {
   headerMode: 'float',
   initialRouteName: 'InitialScreen',
+  headerTransitionPreset: 'uikit',
   navigationOptions: {
     gesturesEnabled: true,
+    headerBackTitle: 'Voltar',
   },
 });
 

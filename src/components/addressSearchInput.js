@@ -115,6 +115,7 @@ class AddressSearchInput extends React.Component {
             onChangeText={debounce(args => this.getNearbyLocations(this.props.location, args), 300)}
             style={styles.input}
             value={this.state.keyword}
+            clearButtonMode="while-editing"
           />
           {this.state.isLoading ?
             <ActivitieContainer>
